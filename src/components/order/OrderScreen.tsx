@@ -91,6 +91,40 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
         </a>
       </div>
 
+      {/* Подсказка с точками самовывоза */}
+      <div className="px-4 mt-3">
+        <div className="card p-3 border-[#FF6B35]/40 bg-[#1A1A20]/95 text-sm">
+          <div className="font-bold text-white mb-2">📍 Где забрать дешевле:</div>
+          
+          <div className="space-y-1.5 text-xs text-gray-300 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-red-500 text-base">🔴</span>
+              <span className="flex-1">Бульвар Героев Отечества <span className="text-gray-500">(Самовывоз)</span></span>
+              <span className="font-bold text-green-400">0 ₽</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-purple-500 text-base">🟣</span>
+              <span className="flex-1">ТЦ Хэппи Молл</span>
+              <span className="font-bold text-green-400">75 ₽</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-blue-500 text-base">🔵</span>
+              <span className="flex-1">ТЦ Тау Галерея</span>
+              <span className="font-bold text-green-400">100 ₽</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-teal-400 text-base">🟢</span>
+              <span className="flex-1">ТЦ Триумф Молл</span>
+              <span className="font-bold text-green-400">180 ₽</span>
+            </div>
+          </div>
+
+          <div className="text-[11px] text-gray-400 pt-2 border-t border-white/10 leading-relaxed">
+            Вы можете встретиться с курьером в зонах дешевой доставки или забрать товар самовывозом. Просто введите название точки в поле ниже.
+          </div>
+        </div>
+      </div>
+
       <div className="p-4 space-y-4">
         <div className="card p-4">
           <h2 className="font-extrabold text-xl">{product.name}</h2>
@@ -98,8 +132,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
         </div>
 
         <div className="card p-4 flex items-center justify-between">
-10:58
-<span className="font-bold">Количество:</span>
+          <span className="font-bold">Количество:</span>
           <div className="flex items-center gap-3">
             <button onClick={decrement} className="w-8 h-8 rounded-full bg-[#23232B] text-[#FF6B35] font-bold text-xl flex items-center justify-center">−</button>
             <span className="font-bold text-lg w-6 text-center">{qty}</span>
@@ -126,7 +159,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
 
         <input 
           type="text" 
-          placeholder="Введите адрес доставки" 
+          placeholder="Введите адрес доставки или название ТЦ" 
           value={address} 
           onChange={(e) => setAddress(e.target.value)} 
           className="input" 
@@ -179,8 +212,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
       <Modal open={showSuccess} onClose={() => { setShowSuccess(false); onClose(); }}>
         <h3 className="font-extrabold text-lg mb-3 gradient-text">Заказ оформлен!</h3>
         <p className="text-sm text-gray-300 leading-relaxed mb-5">
-10:58
-Встреча: <b>{saturdays[dateIdx]?.label}</b> в <b>{timeSlot}</b>.<br/><br/>В течение дня менеджер проверит заказ и напишет полную сумму в чат.
+          Встреча: <b>{saturdays[dateIdx]?.label}</b> в <b>{timeSlot}</b>.<br/><br/>В течение дня менеджер проверит заказ и напишет полную сумму в чат.
         </p>
         <button onClick={() => { setShowSuccess(false); onClose(); }} className="btn-accent w-full">Отлично</button>
       </Modal>
