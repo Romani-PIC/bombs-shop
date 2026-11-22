@@ -56,5 +56,5 @@ export function getDeliveryCost(subtotal: number, address: string): { cost: numb
   if (brightGreenZone.some(word => addr.includes(word))) return subtotal >= 1500 ? { cost: 0, type: "Бесплатно от 1500₽" } : { cost: 120, type: "Доставка (Солнечный)" };
 
   // 3. СЕРАЯ ЗОНА (Если адрес не распознан) - 350₽
-  return { cost: 350, type: "Другая зона (350₽)" };
+  return { cost: 500, type: "Другая зона (500)" };
 }

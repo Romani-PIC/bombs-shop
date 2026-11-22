@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "vercel-build": "chmod +x node_modules/.bin/vite && vite build",
+    "build": "node --experimental-modules node_modules/vite/dist/node/cli.js build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -28,3 +27,5 @@
     "vite": "^5.3.4"
   }
 }
+
+
