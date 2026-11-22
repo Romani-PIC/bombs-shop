@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Product } from "../../types";
 import { getSaturdays, TIME_SLOTS } from "../../utils/dates";
-import { calcDiscount, calcTotal, isFreeDelivery } from "../../utils/pricing";
+import { calcDiscount, calcTotal, getDeliveryCost } from "../../utils/pricing";
 import { useStore } from "../../store/useStore";
 import Modal from "../Modal";
 import Toast from "../Toast";
@@ -21,8 +21,11 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
   const subtotal = qty * product.price_per_pack;
   const preorderActive = new Date() < new Date("2026-12-01T23:59:59");
   const discount = calcDiscount(subtotal, preorderActive);
-  const total = calcTotal(subtotal, discount);
-  const delivery = isFreeDelivery(subtotal);
+  
+  // Новая логика расчета доставки
+  const deliveryInfo = getDeliveryCost(subtotal, address);
+  const deliveryCost = deliveryInfo.cost;
+  const total = calcTotal(subtotal, discount, deliveryCost);
 
   const showToast = (m: string) => { setToast(m); setTimeout(() => setToast(""), 2500); };
   const increment = () => { if (qty < product.stock) setQty(qty + 1); else showToast(`Максимум ${product.stock} пачек`); };
@@ -48,7 +51,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
         address: address.trim(), 
         meeting_date: saturdays[dateIdx].iso, 
         time_slot: timeSlot, 
-        delivery_free: delivery !== "paid" 
+        delivery_free: deliveryCost === 0 
       });
       setShowSuccess(true);
     } catch (e: any) {
@@ -95,10 +98,10 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
         </div>
 
         <div className="card p-4 flex items-center justify-between">
-          <span className="font-bold">Количество:</span>
+10:44
+<span className="font-bold">Количество:</span>
           <div className="flex items-center gap-3">
-09:49
-<button onClick={decrement} className="w-8 h-8 rounded-full bg-[#23232B] text-[#FF6B35] font-bold text-xl flex items-center justify-center">−</button>
+            <button onClick={decrement} className="w-8 h-8 rounded-full bg-[#23232B] text-[#FF6B35] font-bold text-xl flex items-center justify-center">−</button>
             <span className="font-bold text-lg w-6 text-center">{qty}</span>
             <button onClick={increment} className="w-8 h-8 rounded-full bg-[#23232B] text-[#FF6B35] font-bold text-xl flex items-center justify-center">+</button>
           </div>
@@ -108,7 +111,10 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
           <div className="text-sm text-gray-300">
             <div>Сумма: <span className="font-bold text-white">{subtotal} ₽</span></div>
             {discount > 0 && <div className="text-green-400">Скидка: -{discount} ₽</div>}
-            <div className="text-xs text-gray-400 mt-1">Доставка: {delivery === "paid" ? "по тарифам карты" : "бесплатно"}</div>
+            <div className="text-xs text-gray-400 mt-1">
+              Доставка: {deliveryCost === 0 ? "бесплатно" : `${deliveryCost} ₽`}
+              <div className="text-[10px] text-gray-500 mt-1">{deliveryInfo.type}</div>
+            </div>
           </div>
           <div className="border-t border-white/10 pt-2">
             <span className="text-gray-300">К оплате (с учётом +2%): </span>
@@ -123,6 +129,11 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
           onChange={(e) => setAddress(e.target.value)} 
           className="input" 
         />
+
+        <div className="text-[11px] text-gray-400 bg-[#1A1A20] p-3 rounded-xl border border-gray-700/50">
+          <span className="font-bold text-gray-300">Нет вашего адреса в списке?</span><br/>
+          Напишите нам в <a href="https://t.me/BombsShopMenager" target="_blank" rel="noreferrer" className="text-[#FF6B35] underline">поддержку</a>, и мы рассчитаем стоимость доставки индивидуально!
+        </div>
 
         <div className="card p-4 space-y-3">
           <div className="font-bold text-sm">Дата встречи (только субботы):</div>
@@ -166,7 +177,8 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
       <Modal open={showSuccess} onClose={() => { setShowSuccess(false); onClose(); }}>
         <h3 className="font-extrabold text-lg mb-3 gradient-text">Заказ оформлен!</h3>
         <p className="text-sm text-gray-300 leading-relaxed mb-5">
-          Встреча: <b>{saturdays[dateIdx]?.label}</b> в <b>{timeSlot}</b>.<br/><br/>В течение дня менеджер проверит заказ и напишет полную сумму в чат.
+10:44
+Встреча: <b>{saturdays[dateIdx]?.label}</b> в <b>{timeSlot}</b>.<br/><br/>В течение дня менеджер проверит заказ и напишет полную сумму в чат.
         </p>
         <button onClick={() => { setShowSuccess(false); onClose(); }} className="btn-accent w-full">Отлично</button>
       </Modal>
