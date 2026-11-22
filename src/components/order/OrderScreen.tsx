@@ -22,7 +22,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
   const preorderActive = new Date() < new Date("2026-12-01T23:59:59");
   const discount = calcDiscount(subtotal, preorderActive);
   
-  // Новая логика расчета доставки
+  // Расчет доставки по зонам
   const deliveryInfo = getDeliveryCost(subtotal, address);
   const deliveryCost = deliveryInfo.cost;
   const total = calcTotal(subtotal, discount, deliveryCost);
@@ -64,7 +64,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
   return (
     <div className="min-h-full pb-10 max-w-md mx-auto fade-in relative">
       
-      {/* КЛИКАБЕЛЬНАЯ КАРТА */}
+      {/* КЛИКАБЕЛЬНАЯ КАРТА (картинка) */}
       <div className="relative" style={{ height: "45vh" }}>
         <button 
           onClick={onClose} 
@@ -78,7 +78,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
           href="https://yandex.ru/maps/194/saratov/?ll=46.057544%2C51.571700&mode=usermaps&um=constructor%3Ae49ef3d99ed8a63435041d68fe72b499bb80f9cf07283bc73613c73188928dda&z=11.92" 
           target="_blank" 
           rel="noreferrer" 
-          className="block w-full h-full relative group"
+          className="block w-full h-full relative"
         >
           <img 
             src="https://static-maps.yandex.ru/1.x/?ll=46.057544,51.571700&z=11&l=map&size=600,400&pt=46.057544,51.571700,pm2rdm" 
@@ -98,7 +98,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
         </div>
 
         <div className="card p-4 flex items-center justify-between">
-10:44
+10:58
 <span className="font-bold">Количество:</span>
           <div className="flex items-center gap-3">
             <button onClick={decrement} className="w-8 h-8 rounded-full bg-[#23232B] text-[#FF6B35] font-bold text-xl flex items-center justify-center">−</button>
@@ -107,11 +107,13 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
           </div>
         </div>
 
+        {/* БЛОК С СУММОЙ И ДОСТАВКОЙ */}
         <div className="card p-4 space-y-3">
           <div className="text-sm text-gray-300">
             <div>Сумма: <span className="font-bold text-white">{subtotal} ₽</span></div>
             {discount > 0 && <div className="text-green-400">Скидка: -{discount} ₽</div>}
-            <div className="text-xs text-gray-400 mt-1">
+            
+            <div className="text-xs text-gray-400 mt-2">
               Доставка: {deliveryCost === 0 ? "бесплатно" : `${deliveryCost} ₽`}
               <div className="text-[10px] text-gray-500 mt-1">{deliveryInfo.type}</div>
             </div>
@@ -177,7 +179,7 @@ export default function OrderScreen({ product, onClose }: { product: Product; on
       <Modal open={showSuccess} onClose={() => { setShowSuccess(false); onClose(); }}>
         <h3 className="font-extrabold text-lg mb-3 gradient-text">Заказ оформлен!</h3>
         <p className="text-sm text-gray-300 leading-relaxed mb-5">
-10:44
+10:58
 Встреча: <b>{saturdays[dateIdx]?.label}</b> в <b>{timeSlot}</b>.<br/><br/>В течение дня менеджер проверит заказ и напишет полную сумму в чат.
         </p>
         <button onClick={() => { setShowSuccess(false); onClose(); }} className="btn-accent w-full">Отлично</button>
