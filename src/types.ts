@@ -7,19 +7,30 @@ export interface Product {
   sort_order: number;
 }
 
+export interface CartItem {
+  product: Product;
+  qty: number;
+}
+
 export interface Order {
   id: string;
   user_id: number;
-  product_id: string;
-  product_name: string;
-  qty: number;
+  items: CartItem[]; // Теперь заказ хранит массив товаров
   subtotal: number;
   discount: number;
+  delivery_cost: number;
   total: number;
-  delivery_free: boolean;
   address: string;
   meeting_date: string;
   time_slot: string;
   status: string;
   created_at: string;
+}
+
+export interface Profile {
+  telegram_id: number;
+  petards: number;
+  referred_by?: number;
+  is_subscribed: boolean;
+  quest_25_claimed: boolean;
 }

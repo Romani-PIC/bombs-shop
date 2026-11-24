@@ -17,7 +17,7 @@ export function getDeliveryCost(subtotal: number, address: string): { cost: numb
   // --- ПУНКТЫ САМОВЫВОЗА (ВСТРЕЧА В ТЦ) ---
   if (addr.includes("бульвар героев") || addr.includes("бульвар героев отечества")) return { cost: 0, type: "Самовывоз (Бульвар Героев)" };
   if (addr.includes("хэппи") || addr.includes("happy")) return { cost: 75, type: "Встреча у Хэппи Молл" };
-  if (addr.includes("тау галерея") || addr.includes("тау")) return { cost: 120, type: "Встреча у Тау Галерея" };
+  if (addr.includes("тау галерея") || addr.includes("тау")) return { cost: 100, type: "Встреча у Тау Галерея" };
   if (addr.includes("триумф")) return { cost: 180, type: "Встреча у Триумф Молл" };
 
   // --- ВОЛЖСКИЙ РАЙОН (350₽) ---
