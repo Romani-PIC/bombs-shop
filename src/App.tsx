@@ -40,9 +40,12 @@ export default function App() {
         {/* Луна слева (ВЕРНУЛИ НАВЕРХ) */}
         <div className="absolute top-[8%] left-[10%] w-[45px] h-[45px] bg-[#E8FF3A] rounded-full shadow-[0_0_40px_#E8FF3A] opacity-80"></div>
         
-        <svg className="absolute bottom-0 w-full h-[45%]" viewBox="0 0 100 50" preserveAspectRatio="none">
-        <polygon points="0,50 20,10 50,50" fill="#131A10" />
-        <polygon points="30,70 70,25 100,80" fill="#1A2414" />
+        {/* Горы (две, с наложением для глубины) */}
+        <svg className="absolute bottom-0 w-full h-[40%]" viewBox="0 0 100 50" preserveAspectRatio="none">
+        {/* Задняя гора (большая, чуть светлее) */}
+        <polygon points="-10,50 35,5 75,50" fill="#1A2414" />
+        {/* Передняя гора (поменьше, темнее) */}
+        <polygon points="25,50 75,20 110,50" fill="#131A10" />
 </svg>
 
         {/* Фонарь справа */}
