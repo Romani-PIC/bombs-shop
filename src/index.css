@@ -95,19 +95,20 @@ html, body, #root {
 
 /* 2D ФОН (Гора, Луна, Фонарь) */
 .bg-scene {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
-  background: linear-gradient(to bottom, #0A0F08 0%, #131A10 100%);
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+  background: linear-gradient(to bottom, #0A0F08 0%, #0D140B 100%);
 }
 .bg-moon {
-  position: absolute; top: 10%; right: 10%; width: 60px; height: 60px;
-  background: #E8FF3A; border-radius: 50%; box-shadow: 0 0 40px #E8FF3A; opacity: 0.8;
+  position: absolute; top: 12%; right: 15%; width: 80px; height: 80px;
+  background: #E8FF3A; border-radius: 50%; box-shadow: 0 0 60px #E8FF3A; opacity: 0.9;
 }
 .bg-mountain {
-  position: absolute; bottom: 0; left: -10%; width: 120%; height: 40%;
-  background: #131A10; clip-path: polygon(0 100%, 0 50%, 30% 10%, 60% 60%, 100% 20%, 100% 100%);
+  position: absolute; bottom: 0; left: -10%; width: 120%; height: 45%;
+  background: #1A2414; /* Сделали гору заметно светлее */
+  clip-path: polygon(0 100%, 0 50%, 30% 10%, 60% 60%, 100% 20%, 100% 100%);
   opacity: 0.8;
 }
 .bg-lamp {
-  position: absolute; bottom: 0; left: 15%; width: 4px; height: 30%;
-  background: #2A3624; box-shadow: 0 0 30px rgba(232, 255, 58, 0.2);
+  position: absolute; bottom: 0; left: 15%; width: 8px; height: 40%;
+  background: #2A3624; box-shadow: 0 0 50px rgba(232, 255, 58, 0.5);
 }
