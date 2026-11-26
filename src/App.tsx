@@ -43,7 +43,6 @@ export default function App() {
         <svg className="absolute bottom-0 w-full h-[45%]" viewBox="0 0 100 50" preserveAspectRatio="none">
         <polygon points="0,50 20,10 50,50" fill="#131A10" />
         <polygon points="30,50 70,15 100,50" fill="#1A2414" />
-        <polygon points="10,50 60,5 110,50" fill="#1E2E18" opacity="0.5" />
 </svg>
 
         {/* Фонарь справа */}
