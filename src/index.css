@@ -99,7 +99,7 @@ html, body, #root {
   background: linear-gradient(to bottom, #0A0F08 0%, #0D140B 100%);
 }
 .bg-moon {
-  position: absolute; top: 12%; right: 15%; width: 80px; height: 80px;
+  position: absolute; top: 12%; left: 20%; width: 80px; height: 80px;
   background: #E8FF3A; border-radius: 50%; box-shadow: 0 0 60px #E8FF3A; opacity: 0.9;
 }
 .bg-mountain {
@@ -109,6 +109,6 @@ html, body, #root {
   opacity: 0.8;
 }
 .bg-lamp {
-  position: absolute; bottom: 0; left: 15%; width: 8px; height: 40%;
+  position: absolute; bottom: 0; right: 15%; width: 8px; height: 40%;
   background: #2A3624; box-shadow: 0 0 50px rgba(232, 255, 58, 0.5);
 }
