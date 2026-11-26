@@ -9,7 +9,7 @@ export default function PromotionsTab() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 gradient-text">Акции</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Акции</h1>
       <div className="space-y-3">
         {promos.map((p) => (
           <div key={p.id} className="card p-4 fade-in" style={{ opacity: p.active ? 1 : 0.45 }}>

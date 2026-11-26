@@ -8,7 +8,7 @@ export default function CatalogTab({ onOrderClick }: { onOrderClick: () => void;
 
   return (
     <div className="p-4 pt-8 pb-24 relative">
-      <h1 className="text-2xl font-bold mb-4 gradient-text">Каталог</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Каталог</h1>
       
       {loadingProducts && <div className="text-center py-10 text-gray-400">Загрузка...</div>}
       

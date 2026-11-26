@@ -17,7 +17,7 @@ export default function QuestsTab() {
 
   return (
     <div className="p-4 pt-8">
-      <h1 className="text-2xl font-bold mb-4 gradient-text">Задания</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Задания</h1>
       
       <div className="space-y-3">
         {/* 1. Подписка на канал */}

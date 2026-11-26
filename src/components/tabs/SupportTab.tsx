@@ -9,7 +9,7 @@ export default function SupportTab() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 gradient-text">Поддержка</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Поддержка</h1>
       <div className="card p-6 fade-in text-center">
         <div className="text-4xl mb-3">💬</div>
         <p className="text-base text-gray-200 leading-relaxed">

@@ -9,26 +9,28 @@
 html, body, #root {
   height: 100%;
   margin: 0;
-  background: #0E0E12;
+  background: #0A0F08; /* Темный фон с зеленым подтоном */
   color: #fff;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
 }
 
+/* Обновляем старые классы на новые желто-зеленые */
 .card {
-  background: #1A1A20;
-  border: 1.5px solid rgba(255, 107, 53, 0.35);
+  background: #131A10;
+  border: 1.5px solid rgba(232, 255, 58, 0.25);
   border-radius: 16px;
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF2E63 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #E8FF3A 0%, #A6E22E 100%);
+  color: #0A0F08;
   font-weight: 800;
   border-radius: 12px;
   padding: 12px 20px;
   border: none;
-  box-shadow: 0 4px 20px rgba(255, 46, 99, 0.35);
+  box-shadow: 0 4px 20px rgba(232, 255, 58, 0.3);
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 .btn-accent:active { transform: scale(0.97); }
@@ -36,30 +38,76 @@ html, body, #root {
 
 .input {
   width: 100%;
-  background: #23232B;
-  border: 1.5px solid rgba(255, 107, 53, 0.2);
+  background: #1B2417;
+  border: 1.5px solid rgba(232, 255, 58, 0.15);
   border-radius: 12px;
   padding: 12px 16px;
   color: #fff;
   outline: none;
   transition: border-color 0.2s;
 }
-.input:focus { border-color: #FF6B35; }
+.input:focus { border-color: #E8FF3A; }
 
 .gradient-text {
-  background: linear-gradient(135deg, #FF6B35, #FF2E63);
+  background: linear-gradient(135deg, #E8FF3A, #A6E22E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .fade-in { animation: fadeInUp 0.3s ease both; }
 
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 16px rgba(255, 46, 99, 0.5); }
-  50%      { box-shadow: 0 0 28px rgba(255, 46, 99, 0.85); }
+/* --- ГИРЛЯНДА --- */
+.garland {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 24px;
+  display: flex; justify-content: space-around;
+  border-bottom: 2px solid #1B2417; z-index: 50;
+  pointer-events: none;
 }
-.nav-center { animation: pulseGlow 2.5s ease-in-out infinite; }
+.bulb {
+  width: 8px; height: 8px; border-radius: 50%;
+  margin-top: 12px; box-shadow: 0 0 10px currentColor;
+  animation: swing 3s infinite ease-in-out alternate;
+}
+.bulb:nth-child(odd) { animation-duration: 4s; }
+@keyframes swing { 0% { transform: translateY(0); } 100% { transform: translateY(4px); } }
+.bulb.red { background: #FF4D4D; color: #FF4D4D; animation: blink 5s infinite, swing 3s infinite alternate; }
+.bulb.green { background: #A6E22E; color: #A6E22E; }
+.bulb.blue { background: #3A86FF; color: #3A86FF; }
+@keyframes blink { 0%, 90%, 100% { opacity: 1; } 95% { opacity: 0.2; } }
+
+/* --- СНЕГ --- */
+.snow-container {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 10;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px), radial-gradient(circle, rgba(255,255,255,0.5) 1.5px, transparent 1.5px);
+  background-size: 50px 50px, 100px 100px;
+  background-position: 0 0, 25px 25px;
+  animation: snow 10s linear infinite;
+  opacity: 0.6;
+}
+@keyframes snow { 0% { background-position: 0 0, 25px 25px; } 100% { background-position: 50px 500px, 75px 1000px; } }
+
+/* 2D ФОН (Гора, Луна, Фонарь) */
+.bg-scene {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom, #0A0F08 0%, #131A10 100%);
+}
+.bg-moon {
+  position: absolute; top: 10%; right: 10%; width: 60px; height: 60px;
+  background: #E8FF3A; border-radius: 50%; box-shadow: 0 0 40px #E8FF3A; opacity: 0.8;
+}
+.bg-mountain {
+  position: absolute; bottom: 0; left: -10%; width: 120%; height: 40%;
+  background: #131A10; clip-path: polygon(0 100%, 0 50%, 30% 10%, 60% 60%, 100% 20%, 100% 100%);
+  opacity: 0.8;
+}
+.bg-lamp {
+  position: absolute; bottom: 0; left: 15%; width: 4px; height: 30%;
+  background: #2A3624; box-shadow: 0 0 30px rgba(232, 255, 58, 0.2);
+}

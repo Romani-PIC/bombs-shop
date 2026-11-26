@@ -22,7 +22,7 @@ export default function AdminTab() {
 
   return (
     <div className="p-4 pt-8">
-      <h1 className="text-2xl font-bold mb-4 gradient-text">👑  Админ-панель</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">👑  Админ-панель</h1>
       {loading && <div className="text-gray-400">Загрузка...</div>}
       
       <div className="space-y-3">

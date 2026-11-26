@@ -10,7 +10,7 @@ export default function MenuTab() {
 
   return (
     <div className="p-4 pt-8">
-      <h1 className="text-2xl font-bold mb-4 gradient-text">Меню</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Меню</h1>
       
       {/* Блок баланса */}
       <div className="card p-5 text-center mb-4 bg-gradient-to-b from-[#1B2417] to-[#131A10]">
