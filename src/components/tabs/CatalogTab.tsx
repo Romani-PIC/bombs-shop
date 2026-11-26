@@ -3,7 +3,6 @@ import { useStore } from "../../store/useStore";
 export default function CatalogTab({ onOrderClick }: { onOrderClick: () => void; }) {
   const { products, loadingProducts, addToCart, cart } = useStore();
   
-  // Считаем общее количество товаров в корзине, чтобы показать на кнопке
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
 
   return (
@@ -23,7 +22,7 @@ export default function CatalogTab({ onOrderClick }: { onOrderClick: () => void;
                   <div className="text-sm text-gray-400 mt-1">Пачка {p.items_per_pack} шт</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-extrabold text-lg gradient-text">{p.price_per_pack} ₽</div>
+                  <div className="font-extrabold text-lg text-white">{p.price_per_pack} ₽</div>
                 </div>
               </div>
               
@@ -33,25 +32,22 @@ export default function CatalogTab({ onOrderClick }: { onOrderClick: () => void;
                 </span>
               </div>
               
+              {/* НОВАЯ ЖЕЛТАЯ КНОПКА БЕЗ СИЛЬНОГО СВЕЧЕНИЯ */}
               <button 
                 disabled={out} 
                 onClick={() => addToCart(p, 1)} 
-                className="btn-accent w-full flex items-center justify-center gap-2"
+                className="w-full flex items-center justify-center gap-2 bg-[#FFD60A] hover:bg-[#FFCC00] text-[#0A0F08] font-extrabold rounded-xl py-3 transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100 shadow-[0_2px_8px_rgba(255,214,10,0.2)]"
               >
-                Добавить в корзину 🛒 
+                Добавить в корзину 🛒
               </button>
             </div>
           );
         })}
       </div>
 
-      {/* Плавающая кнопка перехода в корзину (появляется, если есть товары) */}
       {totalItems > 0 && (
         <div className="fixed bottom-24 left-0 right-0 max-w-md mx-auto px-4 z-40">
-          <button 
-            onClick={onOrderClick} 
-            className="w-full bg-[#E8FF3A] text-[#0A0F08] font-extrabold text-lg py-4 rounded-xl shadow-[0_0_20px_rgba(232,255,58,0.5)] flex justify-between px-6 items-center"
-          >
+          <button onClick={onOrderClick} className="w-full bg-[#E8FF3A] text-[#0A0F08] font-extrabold text-lg py-4 rounded-xl shadow-[0_0_20px_rgba(232,255,58,0.5)] flex justify-between px-6 items-center">
             <span>Перейти в корзину</span>
             <span className="bg-[#0A0F08] text-[#E8FF3A] px-3 py-1 rounded-full text-sm">{totalItems}</span>
           </button>
