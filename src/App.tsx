@@ -34,22 +34,25 @@ export default function App() {
   return (
     <div className="min-h-full pb-28 max-w-md mx-auto relative text-white bg-[#0A0F08]">
       
-      {/* 2D ФОН - жестко фиксируем на заднем плане */}
+      {/* 2D ФОН */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Луна слева */}
-        <div className="absolute top-[10%] left-[10%] w-[60px] h-[60px] bg-[#E8FF3A] rounded-full shadow-[0_0_50px_#E8FF3A] opacity-90"></div>
         
-        {/* Гора внизу */}
-        <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-[#1E2E18] to-transparent rounded-t-[50%]"></div>
+        {/* Луна слева (ВЕРНУЛИ НАВЕРХ) */}
+        <div className="absolute top-[8%] left-[10%] w-[45px] h-[45px] bg-[#E8FF3A] rounded-full shadow-[0_0_40px_#E8FF3A] opacity-80"></div>
         
+        {/* Гора (SVG с острыми пиками) */}
+        <svg className="absolute bottom-0 w-full h-[30%]" viewBox="0 0 100 50" preserveAspectRatio="none">
+          <polygon points="0,50 30,15 70,50" fill="#131A10" />
+          <polygon points="30,50 70,25 100,50" fill="#1A2414" />
+        </svg>
+
         {/* Фонарь справа */}
-        <div className="absolute bottom-0 right-[15%] w-[6px] h-[35%] bg-[#2A3624]">
-          {/* Светящаяся лампа */}
-          <div className="absolute -top-[15px] -left-[7px] w-[20px] h-[20px] bg-[#E8FF3A] rounded-full shadow-[0_0_30px_10px_rgba(232,255,58,0.6)]"></div>
+        <div className="absolute bottom-0 right-[15%] w-[4px] h-[30%] bg-[#2A3624]">
+          <div className="absolute -top-[10px] -left-[8px] w-[20px] h-[20px] bg-[#E8FF3A] rounded-full shadow-[0_0_30px_10px_rgba(232,255,58,0.6)]"></div>
         </div>
       </div>
 
-      {/* Снег и Гирлянда (поверх фона) */}
+      {/* Снег и Гирлянда */}
       <div className="snow-container z-10"></div>
       <div className="garland z-20">
         {[...Array(10)].map((_, i) => (
@@ -57,7 +60,7 @@ export default function App() {
         ))}
       </div>
 
-      {/* Контент вкладок (самый верхний слой) */}
+      {/* Контент */}
       <div className="pt-8 relative z-30">
         {tab === "catalog" && <CatalogTab onOrderClick={() => setIsCartOpen(true)} />}
         {tab === "promotions" && <PromotionsTab />}
@@ -71,4 +74,5 @@ export default function App() {
     </div>
   );
 }
+
 
