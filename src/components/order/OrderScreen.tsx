@@ -107,19 +107,19 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
           <div className="font-bold text-[#E8FF3A] mb-2">📍 Где забрать дешевле:</div>
           <div className="space-y-1.5 text-xs text-gray-300 mb-2">
             <div className="flex justify-between items-center">
-              <span>🔴 Бульвар Героев <span className="text-gray-500">(Самовывоз)</span></span>
+              <span>❄️ Бульвар Героев <span className="text-gray-500">(Самовывоз)</span></span>
               <span className="font-bold text-green-400">0 ₽</span>
             </div>
             <div className="flex justify-between items-center">
-              <span>🟣 ТЦ Хэппи Молл</span>
+              <span>❄️ ТЦ Хэппи Молл</span>
               <span className="font-bold text-green-400">75 ₽</span>
             </div>
             <div className="flex justify-between items-center">
-              <span>🔵 ТЦ Тау Галерея</span>
+              <span>❄️ ТЦ Тау Галерея</span>
               <span className="font-bold text-green-400">100 ₽</span>
             </div>
             <div className="flex justify-between items-center">
-              <span>🟢 ТЦ Триумф Молл</span>
+              <span>❄️ ТЦ Триумф Молл</span>
               <span className="font-bold text-green-400">180 ₽</span>
             </div>
           </div>
