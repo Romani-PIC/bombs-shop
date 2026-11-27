@@ -16,13 +16,11 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
   const [toast, setToast] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // Переключатели для петард
   const [usePetardsForOrder, setUsePetardsForOrder] = useState(false);
   const [usePetardsForDelivery, setUsePetardsForDelivery] = useState(false);
 
   const saturdays = useMemo(() => getSaturdays(), []);
 
-  // Подсчет сумм
   const subtotal = cart.reduce((acc, item) => acc + (item.product.price_per_pack * item.qty), 0);
   const preorderActive = new Date() < new Date("2026-12-01T23:59:59");
   const baseDiscount = calcDiscount(subtotal, preorderActive);
@@ -31,11 +29,9 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
   const baseDeliveryCost = deliveryInfo.cost;
   const petardsBalance = profile?.petards || 0;
   
-  // 1. Скидка петардами на товары (максимум 8% от суммы товаров)
   const maxOrderPetards = Math.min(petardsBalance, Math.floor(subtotal * 0.08));
   const orderPetardDiscount = usePetardsForOrder ? maxOrderPetards : 0;
 
-  // 2. Скидка петардами на доставку (только если выбрано ТЦ)
   const isPickupPoint = deliveryInfo.type.includes("Встреча у");
   const maxDeliveryPetards = Math.min((petardsBalance - orderPetardDiscount), baseDeliveryCost);
   const deliveryPetardDiscount = (usePetardsForDelivery && isPickupPoint) ? maxDeliveryPetards : 0;
@@ -43,8 +39,8 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
   const finalDeliveryCost = baseDeliveryCost - deliveryPetardDiscount;
   const totalPetardsUsed = orderPetardDiscount + deliveryPetardDiscount;
   
-  // Итоговая сумма: (Сумма - Скидки - Петарды) * 1.02 + Доставка
   const finalTotal = calcTotal(subtotal, baseDiscount + orderPetardDiscount, finalDeliveryCost);
+
   const showToast = (m: string) => { setToast(m); setTimeout(() => setToast(""), 2500); };
 
   const onPayClick = () => {
@@ -86,16 +82,12 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
           <button onClick={onClose} className="text-gray-400 text-sm underline">Назад в каталог</button>
         </div>
 
-        {/* СПИСОК ТОВАРОВ В КОРЗИНЕ */}
         {cart.length === 0 ? (
           <div className="text-center py-10 text-gray-400">Ваша корзина пуста</div>
         ) : (
           <div className="space-y-2">
             {cart.map((item) => (
-
-
-
-<div key={item.product.id} className="card p-3 flex justify-between items-center">
+              <div key={item.product.id} className="card p-3 flex justify-between items-center">
                 <div>
                   <div className="font-bold text-white text-sm">{item.product.name}</div>
                   <div className="text-xs text-gray-400">{item.product.price_per_pack} ₽ × {item.qty}</div>
@@ -110,7 +102,32 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
           </div>
         )}
 
-        {/* БЛОК С АДРЕСОМ И ИТОГАМИ */}
+        {/* ПОДСКАЗКА С ТОЧКАМИ САМОВЫВОЗА (ВЕРНУЛИ НА МЕСТО) */}
+        <div className="card p-3 bg-[#1A2414] border-[#E8FF3A]/30 text-sm mb-2">
+          <div className="font-bold text-[#E8FF3A] mb-2">📍 Где забрать дешевле:</div>
+          <div className="space-y-1.5 text-xs text-gray-300 mb-2">
+            <div className="flex justify-between items-center">
+              <span>🔴 Бульвар Героев <span className="text-gray-500">(Самовывоз)</span></span>
+              <span className="font-bold text-green-400">0 ₽</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>🟣 ТЦ Хэппи Молл</span>
+              <span className="font-bold text-green-400">75 ₽</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>🔵 ТЦ Тау Галерея</span>
+              <span className="font-bold text-green-400">100 ₽</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>🟢 ТЦ Триумф Молл</span>
+              <span className="font-bold text-green-400">180 ₽</span>
+            </div>
+          </div>
+          <div className="text-[10px] text-gray-400 border-t border-gray-700/50 pt-2">
+            Вы можете встретиться с курьером в зонах дешевой доставки или забрать товар самовывозом. Просто введите название точки в поле ниже.
+          </div>
+        </div>
+
         <div className="card p-4 space-y-2">
           <input 
             type="text" 
@@ -133,21 +150,19 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
             <span>{finalDeliveryCost === 0 ? "Бесплатно" : `${finalDeliveryCost} ₽`}</span>
           </div>
 
-          {/* СПИСАНИЕ ПЕТАРД НА ТОВАРЫ */}
           {petardsBalance > 0 && (
             <div className="border-t border-gray-700 pt-2 mt-2">
               <div className="flex justify-between items-center text-sm mb-1">
-                <span className="text-[#E8FF3A]">Списать 🧨  на товары (макс 8%)</span>
+                <span className="text-[#E8FF3A]">Списать 🧨 на товары (макс 8%)</span>
                 <input type="checkbox" checked={usePetardsForOrder} onChange={() => setUsePetardsForOrder(!usePetardsForOrder)} className="w-4 h-4 accent-[#E8FF3A]" />
               </div>
               {usePetardsForOrder && <div className="text-xs text-green-400 text-right">-{orderPetardDiscount} ₽</div>}
             </div>
           )}
 
-          {/* СПИСАНИЕ ПЕТАРД НА ДОСТАВКУ (ТОЛЬКО ДЛЯ ТЦ) */}
           {petardsBalance > 0 && isPickupPoint && (
             <div className="flex justify-between items-center text-sm mt-1">
-              <span className="text-[#E8FF3A]">Списать 🧨  на доставку</span>
+              <span className="text-[#E8FF3A]">Списать 🧨 на доставку</span>
               <input type="checkbox" checked={usePetardsForDelivery} onChange={() => setUsePetardsForDelivery(!usePetardsForDelivery)} className="w-4 h-4 accent-[#E8FF3A]" />
             </div>
           )}
@@ -159,7 +174,6 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
           </div>
         </div>
 
-        {/* ВЫБОР ДАТЫ */}
         <div className="card p-4 space-y-3">
           <div className="font-bold text-sm text-white">Дата встречи (субботы):</div>
           <select value={dateIdx} onChange={(e) => setDateIdx(Number(e.target.value))} className="input">
@@ -173,12 +187,11 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
           </div>
         </div>
 
-<button onClick={onPayClick} disabled={submitting || cart.length === 0} className="btn-accent w-full text-lg py-4 mt-2">
+        <button onClick={onPayClick} disabled={submitting || cart.length === 0} className="btn-accent w-full text-lg py-4 mt-2">
           {submitting ? "Отправка..." : `Оплатить при получении +2% (${finalTotal} ₽)`}
         </button>
       </div>
 
-      {/* МОДАЛКА ПОДТВЕРЖДЕНИЯ */}
       <Modal open={showPay} onClose={() => setShowPay(false)}>
         <h3 className="font-extrabold text-lg mb-3 text-white">Оплата при получении</h3>
         <p className="text-sm text-gray-300 leading-relaxed mb-5">
@@ -188,7 +201,6 @@ export default function OrderScreen({ onClose }: { onClose: () => void; }) {
         <button onClick={confirmOrder} className="btn-accent w-full">Хорошо!</button>
       </Modal>
 
-      {/* МОДАЛКА УСПЕХА */}
       <Modal open={showSuccess} onClose={() => { setShowSuccess(false); onClose(); }}>
         <h3 className="font-extrabold text-lg mb-3 gradient-text">Заказ оформлен!</h3>
         <p className="text-sm text-gray-300 leading-relaxed mb-5">
