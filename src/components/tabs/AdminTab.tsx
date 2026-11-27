@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { Order } from "../../types";
+import { tg } from "../../lib/telegram"; // Импортируем Telegram API
 
 export default function AdminTab() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -15,13 +16,26 @@ export default function AdminTab() {
   useEffect(() => { loadAllOrders(); }, []);
 
   const updateStatus = async (id: string, status: string) => {
-    // Пытаемся обновить статус и ловим ошибку
     const { error } = await supabase.from("orders").update({ status }).eq("id", id);
-    
     if (error) {
       alert("Ошибка при обновлении: " + error.message);
     } else {
       loadAllOrders();
+    }
+  };
+
+  const copyUserId = (id: number) => {
+    navigator.clipboard.writeText(String(id));
+    alert("ID клиента скопирован!");
+  };
+
+  // Функция для перехода в чат с клиентом
+  const openChat = (id: number) => {
+    const url = `tg://user?id=${id}`;
+    if (tg?.openTelegramLink) {
+      tg.openTelegramLink(url); // Открываем через встроенный API Telegram
+    } else {
+      window.open(url, "_blank"); // Резервный вариант для браузера
     }
   };
 
@@ -36,12 +50,32 @@ export default function AdminTab() {
             <div className="flex justify-between items-start mb-2">
               <div>
                 <div className="font-bold text-white mb-1">Заказ от {new Date(o.created_at).toLocaleDateString()}</div>
+                
+                {/* БЛОК С ID И КНОПКАМИ СВЯЗИ */}
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <div className="text-gray-400 text-xs">ID: {o.user_id}</div>
+                  
+                  <button 
+                    onClick={() => copyUserId(o.user_id)} 
+                    className="text-[10px] bg-gray-700 text-white px-2 py-1 rounded active:scale-95 transition-transform"
+                  >
+                    Копировать
+                  </button>
+                  
+                  <button 
+                    onClick={() => openChat(o.user_id)} 
+                    className="text-[10px] bg-[#E8FF3A] text-[#0A0F08] font-bold px-3 py-1 rounded active:scale-95 transition-transform shadow-[0_0_10px_rgba(232,255,58,0.4)]"
+                  >
+                    💬 Написать в чат
+                  </button>
+                </div>
+
                 <div className="text-gray-400 text-xs">{o.address}</div>
                 <div className="text-gray-400 text-xs">Встреча: {o.meeting_date}, {o.time_slot}</div>
                 <div className="text-gray-400 text-xs mt-1">
                   Товары: {o.items && o.items.length > 0 
                     ? o.items.map((i: any) => `${i.product.name} (x${i.qty})`).join(", ") 
-                    : "Старый заказ (без корзины)"}
+                    : "Старый заказ"}
                 </div>
               </div>
               <div className="text-right">
