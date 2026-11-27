@@ -95,27 +95,22 @@ export const useStore = create<Store>((set, get) => ({
     const cart = get().cart;
     if (cart.length === 0) throw new Error("Корзина пуста");
 
-    // 1. Списываем остатки
     for (const item of cart) {
       const { error } = await supabase.rpc("decrement_stock", { p_id: item.product.id, p_qty: item.qty });
       if (error) throw new Error(`Ошибка склада: ${item.product.name}`);
     }
 
-    // 2. Создаем заказ
     const { error: insertErr } = await supabase.from("orders").insert({
       user_id: userId, items: cart, subtotal: payload.subtotal, discount: payload.discount,
-
-delivery_cost: payload.delivery_cost, total: payload.total, address: payload.address,
+      delivery_cost: payload.delivery_cost, total: payload.total, address: payload.address,
       meeting_date: payload.meeting_date, time_slot: payload.time_slot, status: "pending",
     });
     if (insertErr) throw insertErr;
 
-    // 3. Списываем петарды
     if (payload.petards_used > 0 && get().profile) {
       await supabase.from("profiles").update({ petards: get().profile!.petards - payload.petards_used }).eq("telegram_id", userId);
     }
 
-    // 4. Начисляем кэшбек (10% от суммы) пригласившему
     const { data: myProfile } = await supabase.from("profiles").select("referred_by").eq("telegram_id", userId).single();
     if (myProfile && myProfile.referred_by) {
       const cashbackRub = Math.floor(payload.total * 0.1);
@@ -137,10 +132,11 @@ delivery_cost: payload.delivery_cost, total: payload.total, address: payload.add
     await get().initProfile();
   },
 
+  // ВОТ ЗДЕСЬ МЕНЯЕМ 500 НА 100
   async claimQuest25() {
     const userId = getUserId();
     if (!userId || !get().profile) return;
-    await supabase.from("profiles").update({ quest_25_claimed: true, petards: get().profile!.petards + 500 }).eq("telegram_id", userId);
+    await supabase.from("profiles").update({ quest_25_claimed: true, petards: get().profile!.petards + 100 }).eq("telegram_id", userId);
     await get().initProfile();
   }
 }));

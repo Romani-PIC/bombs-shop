@@ -2,8 +2,6 @@ import { isAfter } from "date-fns";
 
 export default function PromotionsTab() {
   const preorderActive = !isAfter(new Date(), new Date("2026-12-01T23:59:59"));
-  
-  // Проверка: наступило ли 1 декабря
   const isPromoActive = new Date() >= new Date("2026-12-01T00:00:00+03:00");
 
   return (
@@ -22,12 +20,12 @@ export default function PromotionsTab() {
         
         <div className="text-xs text-gray-500 text-center py-2">Скидки суммируются</div>
 
-        {/* АКЦИЯ НЕДЕЛИ (вернули на место) */}
-        <div className="relative p-1 rounded-2xl bg-gradient-to-r from-green-400 via-blue-500 to-red-500">
+        {/* АКЦИЯ НЕДЕЛИ (КРАСНАЯ ОБВОДКА) */}
+        <div className="relative p-1 rounded-2xl bg-[#FF4D4D] shadow-[0_0_15px_rgba(255,77,77,0.4)]">
           <div className="bg-[#131A10] p-5 rounded-xl text-center">
-            <div className="text-xs font-bold text-green-400 uppercase tracking-widest mb-2">Акция недели</div>
-            <h3 className="font-extrabold text-xl text-white mb-2">Пригласи 25 друзей</h3>
-            <p className="text-sm text-gray-300 mb-4">Получи <b className="text-white">500 🧨</b> на баланс</p>
+            <div className="text-xs font-bold text-red-400 uppercase tracking-widest mb-2">Акция недели</div>
+            <h3 className="font-extrabold text-xl text-white mb-2">Пригласи 8 друзей</h3>
+            <p className="text-sm text-gray-300 mb-4">Получи <b className="text-white">100 🧨</b> на баланс</p>
             <div className="text-xs text-gray-400 mb-4">1 🧨 = 1 ₽</div>
             
             {isPromoActive ? (
